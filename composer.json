@@ -10,24 +10,27 @@
     {
       "name": "Vincent Foulon",
       "email": "sup.vfoulon@gmail.com"
+    },
+    {
+      "name": "Maurizio Fonte",
+      "email": "fonte.maurizio@gmail.com"
     }
   ],
   "require": {
-    "php": "^7.0",
-    "wamania/php-stemmer": "^1.2"
+    "php": ">=7.0.0",
+    "wamania/php-stemmer": "^3.0"
   },
   "require-dev": {
-  },
-  "conflict": {
-  },
+		"friendsofphp/php-cs-fixer": "^3.4",
+		"phpstan/phpstan": "^1.9"
+	},
   "autoload": {
     "psr-4": {
-      "VFou\\Search\\": ""
+      "MFonte\\Search\\": "src/"
     }
   },
-  "extra": {
-    "branch-alias": null
-  },
-  "support": {
+  "scripts": {
+    "fix": "@php vendor/bin/php-cs-fixer fix",
+    "analyse": "@php vendor/bin/phpstan analyse src --level 4"
   }
 }

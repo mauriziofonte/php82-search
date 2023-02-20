@@ -14,11 +14,12 @@ composer require vfou/php-search 1.1
 # What can it do ?
 
 in short :
-- indexing and searching documents (with score, fuzzy search and tokenization)
-- Stemming and stop-words of 12 supported languages
-- Faceting
-- Autocompletion
-- Connex Search
+
+-   indexing and searching documents (with score, fuzzy search and tokenization)
+-   Stemming and stop-words of 12 supported languages
+-   Faceting
+-   Autocompletion
+-   Connex Search
 
 Take a look at the [Feature Page](https://github.com/VincentFoulon80/php-search/wiki/Features) for a more complete listing
 
@@ -29,7 +30,7 @@ The search engine is packaged with an example schema that allow you to take hand
 at first you need to load the search engine.
 
 ```php
-use VFou\Search\Engine;
+use Mfonte\Search\Engine;
 
 $engine = new Engine();
 ```
@@ -37,9 +38,10 @@ $engine = new Engine();
 You can give an array in parameter of the class constructor, see [the wiki's configuration page](https://github.com/VincentFoulon80/php-search/wiki/Configuration) for more informations.
 
 By constructing the engine, there'll be some directory that appeared next to your index file :
-- var/engine/index
-- var/engine/documents
-- var/engine/cache
+
+-   var/engine/index
+-   var/engine/documents
+-   var/engine/cache
 
 (All these directories can be changed with the configuration array)
 
@@ -113,7 +115,7 @@ The Admin panel is a class that need to be instantiated and then run. It's not a
 ```php
 <?php
 
-use VFou\Search\AdminPanel;
+use Mfonte\Search\AdminPanel;
 
 // include the composer autoload file, modify the path if needed
 require "vendor/autoload.php";
@@ -133,5 +135,3 @@ More informations in the [Admin Panel Manual](https://github.com/VincentFoulon80
 # License
 
 This library is under the MIT license. [See the complete license](LICENSE)
-
-

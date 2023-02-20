@@ -1,12 +1,12 @@
 <?php
 
 
-namespace VFou\Search;
+namespace Mfonte\Search;
 
 
 use Exception;
-use VFou\Search\Query\QueryBuilder;
-use VFou\Search\Query\QuerySegment;
+use Mfonte\Search\Query\QueryBuilder;
+use Mfonte\Search\Query\QuerySegment;
 
 class AdminPanel
 {

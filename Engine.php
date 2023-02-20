@@ -1,19 +1,19 @@
 <?php
 
-namespace VFou\Search;
+namespace Mfonte\Search;
 
 use DateTime;
 use Exception;
-use VFou\Search\Query\QueryBuilder;
-use VFou\Search\Services\Index;
-use VFou\Search\Tokenizers\AlphaNumericTokenizer;
-use VFou\Search\Tokenizers\DateFormatTokenizer;
-use VFou\Search\Tokenizers\DateSplitTokenizer;
-use VFou\Search\Tokenizers\LowerCaseTokenizer;
-use VFou\Search\Tokenizers\RemoveAccentsTokenizer;
-use VFou\Search\Tokenizers\singleQuoteTokenizer;
-use VFou\Search\Tokenizers\TrimPunctuationTokenizer;
-use VFou\Search\Tokenizers\WhiteSpaceTokenizer;
+use Mfonte\Search\Query\QueryBuilder;
+use Mfonte\Search\Services\Index;
+use Mfonte\Search\Tokenizers\AlphaNumericTokenizer;
+use Mfonte\Search\Tokenizers\DateFormatTokenizer;
+use Mfonte\Search\Tokenizers\DateSplitTokenizer;
+use Mfonte\Search\Tokenizers\LowerCaseTokenizer;
+use Mfonte\Search\Tokenizers\RemoveAccentsTokenizer;
+use Mfonte\Search\Tokenizers\singleQuoteTokenizer;
+use Mfonte\Search\Tokenizers\TrimPunctuationTokenizer;
+use Mfonte\Search\Tokenizers\WhiteSpaceTokenizer;
 
 class Engine
 {
