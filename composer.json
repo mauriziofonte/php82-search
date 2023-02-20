@@ -1,5 +1,5 @@
 {
-  "name": "vfou/php-search",
+  "name": "mfonte/php82-search",
   "type": "library",
   "description": "A Lucene-inspired PHP Search engine library",
   "keywords": [
