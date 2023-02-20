@@ -1,29 +1,34 @@
 # Demo
 
-A small demo of this search engine is available [here](https://midnight-cms.com/search.php).
-This demo is made with a dataset of 1000 movies from 2006 and 2016. The results are provided as you type.
+A Lucene-inspired PHP Search engine library.
 
-# Installation
+Original Package: [https://github.com/VincentFoulon80/php-search](https://github.com/VincentFoulon80/php-search).
+
+Internally uses Wamania PHP Snowball Stemmer [https://github.com/wamania/php-stemmer](https://github.com/wamania/php-stemmer)
+
+This package was forked to allow **PHP 8.2** compatibility.
+
+## Installation
 
 install this library via Composer :
 
-```
-composer require vfou/php-search 1.1
+```bash
+composer require mfonte/php82-search
 ```
 
-# What can it do ?
+## What can it do ?
 
 in short :
 
--   indexing and searching documents (with score, fuzzy search and tokenization)
--   Stemming and stop-words of 12 supported languages
--   Faceting
--   Autocompletion
--   Connex Search
+- indexing and searching documents (with score, fuzzy search and tokenization)
+- Stemming and stop-words of 12 supported languages
+- Faceting
+- Autocompletion
+- Connex Search
 
 Take a look at the [Feature Page](https://github.com/VincentFoulon80/php-search/wiki/Features) for a more complete listing
 
-# Quick start
+## Quick start
 
 The search engine is packaged with an example schema that allow you to take hand quickly on the library.
 
@@ -39,9 +44,9 @@ You can give an array in parameter of the class constructor, see [the wiki's con
 
 By constructing the engine, there'll be some directory that appeared next to your index file :
 
--   var/engine/index
--   var/engine/documents
--   var/engine/cache
+- var/engine/index
+- var/engine/documents
+- var/engine/cache
 
 (All these directories can be changed with the configuration array)
 
@@ -106,7 +111,7 @@ var_dump($response);
 
 For more informations about this library, like using more advanced features, go to [the wiki page of this repository](https://github.com/VincentFoulon80/php-search/wiki)
 
-# Admin Panel
+## Admin Panel
 
 :warning: **Warning : This panel does not handle any security by itself. If you use it, it's up to you to prevent the public from accessing it !**
 
@@ -132,6 +137,6 @@ the AdminPanel's constructor accept as first parameter the same config array as 
 
 More informations in the [Admin Panel Manual](https://github.com/VincentFoulon80/php-search/wiki/Admin-Panel-Manual)
 
-# License
+## License
 
 This library is under the MIT license. [See the complete license](LICENSE)
