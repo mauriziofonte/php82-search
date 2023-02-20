@@ -6,7 +6,7 @@
  * Time: 09:02.
  */
 
-namespace Mfonte\Search\Tokenizers;
+namespace MFonte\Search\Tokenizers;
 
 class WhiteSpaceTokenizer implements TokenizerInterface
 {

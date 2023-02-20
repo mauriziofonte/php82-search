@@ -30,7 +30,7 @@ The search engine is packaged with an example schema that allow you to take hand
 at first you need to load the search engine.
 
 ```php
-use Mfonte\Search\Engine;
+use MFonte\Search\Engine;
 
 $engine = new Engine();
 ```
@@ -115,7 +115,7 @@ The Admin panel is a class that need to be instantiated and then run. It's not a
 ```php
 <?php
 
-use Mfonte\Search\AdminPanel;
+use MFonte\Search\AdminPanel;
 
 // include the composer autoload file, modify the path if needed
 require "vendor/autoload.php";

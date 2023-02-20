@@ -1,12 +1,11 @@
 <?php
 
 
-namespace Mfonte\Search;
-
+namespace MFonte\Search;
 
 use Exception;
-use Mfonte\Search\Query\QueryBuilder;
-use Mfonte\Search\Query\QuerySegment;
+use MFonte\Search\Query\QueryBuilder;
+use MFonte\Search\Query\QuerySegment;
 
 class AdminPanel
 {
@@ -39,16 +38,20 @@ class AdminPanel
     public function run($uri = null, $baseUrl = null)
     {
         ob_start();
-        if($uri == null){
+        if ($uri == null) {
             $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-            if(strpos($uri, $_SERVER['SCRIPT_NAME']) == 0) $uri = substr($uri, strlen($_SERVER['SCRIPT_NAME']));
+            if (strpos($uri, $_SERVER['SCRIPT_NAME']) == 0) {
+                $uri = substr($uri, strlen($_SERVER['SCRIPT_NAME']));
+            }
         }
-        if($baseUrl != null) {
+        if ($baseUrl != null) {
             $GLOBALS['vfou_baseurl'] = $baseUrl;
         }
-        if(empty($uri)) $uri = '/';
+        if (empty($uri)) {
+            $uri = '/';
+        }
         include('templates/header.php');
-        switch($uri){
+        switch($uri) {
             case '/':
                 $this->indexAction();
                 break;
@@ -105,12 +108,12 @@ class AdminPanel
         $sw = microtime(true);
         $segments = [];
         $isFacetSearching = false;
-        foreach($_GET as $field=>$value){
-            if(strpos($field,'facet-') === 0){
+        foreach ($_GET as $field=>$value) {
+            if (strpos($field, 'facet-') === 0) {
                 $isFacetSearching = true;
                 $facetField = substr($field, 6);
                 $subSeg = [];
-                foreach($value as $v){
+                foreach ($value as $v) {
                     $subSeg[] = QuerySegment::exactSearch($facetField, $v);
                 }
                 $segments[] = QuerySegment::or($subSeg);
@@ -119,14 +122,16 @@ class AdminPanel
         $query = new QueryBuilder(QuerySegment::search($q, QuerySegment::and($segments)));
         $query->setLimit($_GET['limit'] ?? 10);
         $query->setOffset($_GET['offset'] ?? 0);
-        if($_GET['connex'] ?? false) $query->enableConnex();
+        if ($_GET['connex'] ?? false) {
+            $query->enableConnex();
+        }
         $facets = $_GET['facets'] ?? '';
-        if(!empty($facets)){
-            foreach(explode(',', $facets) as $facet){
+        if (!empty($facets)) {
+            foreach (explode(',', $facets) as $facet) {
                 $query->addFacet($facet);
             }
         }
-        if($isFacetSearching){
+        if ($isFacetSearching) {
             $results = $this->engine->search($query);
         } else {
             $results = $this->engine->search($q, $query->getFilters());
@@ -148,12 +153,12 @@ class AdminPanel
     private function editAction()
     {
         $errors = [];
-        if(($_SERVER['REQUEST_METHOD'] ?? false) == 'POST'){
+        if (($_SERVER['REQUEST_METHOD'] ?? false) == 'POST') {
             if (isset($_POST['delete'])) {
                 // deletes document
                 $this->engine->delete($_POST['delete']);
                 $this->engine->getIndex()->getDocument($_POST['delete']);
-            } elseif(isset($_POST['prefill'])) {
+            } elseif (isset($_POST['prefill'])) {
                 // we catch this here to prevent 'content' parameter to trigger
                 // by the way, we disable the 'id' parameter
                 $_GET['id'] = null;
@@ -161,7 +166,7 @@ class AdminPanel
                 // edit or create document
                 $_POST['content'] = empty($_POST['content'] ?? '') ? '{}' : $_POST['content'];
                 $content = json_decode($_POST['content'], true);
-                if($content === null){
+                if ($content === null) {
                     $errors[] = "ERROR : Invalid Json";
                 } else {
                     // we parse DateTimes back to their Object
@@ -187,15 +192,19 @@ class AdminPanel
                         $errors[] = get_class($exception) . ": " . $exception->getMessage();
                     }
                 }
-                if (isset($content['id'])) $_GET['id'] = $content['id'];
+                if (isset($content['id'])) {
+                    $_GET['id'] = $content['id'];
+                }
             }
         }
         $id = $_GET['id'] ?? null;
-        if(isset($id)){
+        if (isset($id)) {
             // fetch document and converts Datetime to a string representation
             $document = $this->engine->getIndex()->getDocument($id);
-            array_walk_recursive($document, function(&$elem) {
-                if(is_a($elem, \DateTime::class)) $elem = "@@@DateTime:".$elem->getTimestamp();
+            array_walk_recursive($document, function (&$elem) {
+                if (is_a($elem, \DateTime::class)) {
+                    $elem = "@@@DateTime:".$elem->getTimestamp();
+                }
             });
         }
         include('templates/edit.php');
@@ -211,9 +220,11 @@ class AdminPanel
     private function typesAction()
     {
         $types = $this->engine->getIndex()->getTypes();
-        if(!isset($_GET['type'])) $_GET['type'] = '_default';
+        if (!isset($_GET['type'])) {
+            $_GET['type'] = '_default';
+        }
         $debugTokens = [];
-        if(!empty($_GET['text'])){
+        if (!empty($_GET['text'])) {
             $debugTokens = $this->engine->getIndex()->tokenizeQuery($_GET['text'] ?? '', $_GET['type']);
         }
         include('templates/types.php');

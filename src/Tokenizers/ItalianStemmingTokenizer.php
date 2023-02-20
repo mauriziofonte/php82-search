@@ -1,6 +1,6 @@
 <?php
 
-namespace Mfonte\Search\Tokenizers;
+namespace MFonte\Search\Tokenizers;
 
 use Wamania\Snowball\Italian;
 

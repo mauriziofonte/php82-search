@@ -1,6 +1,6 @@
 <?php
 
-namespace Mfonte\Search\Tokenizers;
+namespace MFonte\Search\Tokenizers;
 
 /**
  * @see https://github.com/stopwords-iso/stopwords-en/blob/master/stopwords-en.json

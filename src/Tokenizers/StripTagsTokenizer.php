@@ -6,7 +6,7 @@
  * Time: 12:00.
  */
 
-namespace Mfonte\Search\Tokenizers;
+namespace MFonte\Search\Tokenizers;
 
 class StripTagsTokenizer implements TokenizerInterface
 {

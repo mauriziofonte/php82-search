@@ -1,19 +1,19 @@
 <?php
 
-namespace Mfonte\Search;
+namespace MFonte\Search;
 
 use DateTime;
 use Exception;
-use Mfonte\Search\Query\QueryBuilder;
-use Mfonte\Search\Services\Index;
-use Mfonte\Search\Tokenizers\AlphaNumericTokenizer;
-use Mfonte\Search\Tokenizers\DateFormatTokenizer;
-use Mfonte\Search\Tokenizers\DateSplitTokenizer;
-use Mfonte\Search\Tokenizers\LowerCaseTokenizer;
-use Mfonte\Search\Tokenizers\RemoveAccentsTokenizer;
-use Mfonte\Search\Tokenizers\singleQuoteTokenizer;
-use Mfonte\Search\Tokenizers\TrimPunctuationTokenizer;
-use Mfonte\Search\Tokenizers\WhiteSpaceTokenizer;
+use MFonte\Search\Query\QueryBuilder;
+use MFonte\Search\Services\Index;
+use MFonte\Search\Tokenizers\AlphaNumericTokenizer;
+use MFonte\Search\Tokenizers\DateFormatTokenizer;
+use MFonte\Search\Tokenizers\DateSplitTokenizer;
+use MFonte\Search\Tokenizers\LowerCaseTokenizer;
+use MFonte\Search\Tokenizers\RemoveAccentsTokenizer;
+use MFonte\Search\Tokenizers\singleQuoteTokenizer;
+use MFonte\Search\Tokenizers\TrimPunctuationTokenizer;
+use MFonte\Search\Tokenizers\WhiteSpaceTokenizer;
 
 class Engine
 {
@@ -45,7 +45,8 @@ class Engine
      * such as clearing the cache or rebuilding the index
      * @return Index
      */
-    public function getIndex(){
+    public function getIndex()
+    {
         return $this->index;
     }
 
@@ -55,7 +56,8 @@ class Engine
      * @return bool
      * @throws Exception
      */
-    public function update($document){
+    public function update($document)
+    {
         return $this->index->update($document);
     }
 
@@ -65,7 +67,8 @@ class Engine
      * @return bool
      * @throws Exception
      */
-    public function updateMultiple(array $document){
+    public function updateMultiple(array $document)
+    {
         return $this->index->updateMultiple($document);
     }
 
@@ -76,8 +79,9 @@ class Engine
      * @return array
      * @throws Exception
      */
-    public function search($query, $filters = []){
-        if(is_a($query, QueryBuilder::class)){
+    public function search($query, $filters = [])
+    {
+        if (is_a($query, QueryBuilder::class)) {
             return $this->index->search($query->getQuery(), $query->getFilters());
         }
         return $this->index->search($query, $filters);
@@ -90,7 +94,8 @@ class Engine
      * @throws Exception
      * @deprecated Suggesting functions now have another suggestion function available. Please use suggestToken($token) instead
      */
-    public function suggest($token){
+    public function suggest($token)
+    {
         return $this->suggestToken($token);
     }
 
@@ -100,16 +105,17 @@ class Engine
      * @return array
      * @throws Exception
      */
-    public function suggestToken($query){
+    public function suggestToken($query)
+    {
         $terms = explode(' ', $query);
         $search = array_pop($terms);
         $tokens = $this->index->tokenizeQuery($search);
         $suggestions = [];
-        foreach($tokens as $token) {
+        foreach ($tokens as $token) {
             $suggestions = array_replace($suggestions, $this->index->suggestToken($token));
         }
-        $before = implode(' ',$terms);
-        foreach($suggestions as &$suggest){
+        $before = implode(' ', $terms);
+        foreach ($suggestions as &$suggest) {
             $suggest = $before.' '.$suggest;
         }
         return array_chunk($suggestions, 10)[0];
@@ -123,7 +129,8 @@ class Engine
      * @return array
      * @throws Exception
      */
-    public function suggestField($field, $value, $wrapSpan = false){
+    public function suggestField($field, $value, $wrapSpan = false)
+    {
         return $this->index->suggestField($field, $value, $wrapSpan);
     }
 
@@ -133,7 +140,8 @@ class Engine
      * @return bool
      * @throws Exception
      */
-    public function delete($id){
+    public function delete($id)
+    {
         return $this->index->delete($id);
     }
 
@@ -141,7 +149,8 @@ class Engine
      * Returns the default configuration
      * @return array
      */
-    private function getDefaultConfig(){
+    private function getDefaultConfig()
+    {
         return [
             'config' => [
                 'var_dir' => $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.'var',
@@ -158,7 +167,8 @@ class Engine
                     'limitDocs' => 10
                 ],
                 'serializableObjects' => [
-                    DateTime::class => function($datetime) { /** @var DateTime $datetime */ return $datetime->getTimestamp(); }
+                    DateTime::class => function ($datetime) { /** @var DateTime $datetime */ return $datetime->getTimestamp();
+                    }
                 ]
             ],
             'schemas' => [
@@ -224,5 +234,4 @@ class Engine
             ]
         ];
     }
-
 }

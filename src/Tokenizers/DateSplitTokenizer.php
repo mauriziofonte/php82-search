@@ -6,7 +6,7 @@
  * Time: 09:12.
  */
 
-namespace Mfonte\Search\Tokenizers;
+namespace MFonte\Search\Tokenizers;
 
 class DateSplitTokenizer implements TokenizerInterface
 {

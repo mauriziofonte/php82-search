@@ -55,9 +55,9 @@ class Directory
      * @param string $filename
      * @param bool   $createIfNotExist
      *
-     * @return File
+     * @return File|null
      */
-    public function open($filename, $createIfNotExist = true)
+    public function open($filename, $createIfNotExist = true) : ?File
     {
         if (!isset($this->files[$filename])) {
             if (file_exists($this->path.$filename) || $createIfNotExist) {
@@ -77,9 +77,9 @@ class Directory
      *
      * @throws \Exception
      *
-     * @return Directory
+     * @return Directory|null
      */
-    public function getOrCreateDirectory($name, $keepFilesOpened = false)
+    public function getOrCreateDirectory($name, $keepFilesOpened = false) : ?Directory
     {
         if (file_exists($this->path.$name)) {
             if (is_dir($this->path.$name)) {
@@ -95,9 +95,12 @@ class Directory
     /**
      * deletes a file.
      */
-    public function delete($file)
+    public function delete($file) : void
     {
-        $this->open($file)->delete();
+        $file = $this->open($file);
+        if ($file) {
+            $file->delete();
+        }
     }
 
     /**
@@ -105,7 +108,7 @@ class Directory
      *
      * @return array
      */
-    public function scan()
+    public function scan() : array
     {
         $all = [];
         foreach (scandir($this->path) as $file) {
@@ -149,7 +152,7 @@ class Directory
      *
      * @throws \Exception
      */
-    public function deleteAll($softDelete = true)
+    public function deleteAll($softDelete = true) : void
     {
         if ($softDelete) {
             $all = $this->openAll();
@@ -159,8 +162,11 @@ class Directory
                 }
             }
         } else {
-            foreach ($this->files ?? [] as $file) {
-                $file->delete();
+            $files = $this->files;
+            if (\count($files) > 0) {
+                foreach ($files as $file) {
+                    $file->delete();
+                }
             }
             $this->hardDelete(mb_substr($this->path, 0, -1));
             $this->createDirectoryIfNotExist();
@@ -173,7 +179,7 @@ class Directory
      *
      * @return bool
      */
-    private function hardDelete($dir)
+    private function hardDelete($dir) : bool
     {
         if (!is_dir($dir) || is_link($dir)) {
             return unlink($dir);

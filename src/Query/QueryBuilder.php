@@ -31,7 +31,7 @@ class QueryBuilder
         $this->facets = [];
     }
 
-    public function setQuerySegment(QuerySegment $query)
+    public function setQuerySegment(QuerySegment $query) : void
     {
         $this->search = $query;
     }
@@ -134,7 +134,7 @@ class QueryBuilder
      *
      * @return $this
      */
-    public function orderBy($field, $order = 'ASC')
+    public function orderBy($field, $order = 'ASC') : self
     {
         $this->order = [
             $field => $order,
@@ -146,7 +146,7 @@ class QueryBuilder
     /**
      * Ask for $field's facet to be provided in the result array.
      */
-    public function addFacet($field)
+    public function addFacet($field) : void
     {
         $this->facets[$field] = $field;
     }
@@ -154,7 +154,7 @@ class QueryBuilder
     /**
      * Set the number of documents you want to retrieve.
      */
-    public function setLimit(int $limit)
+    public function setLimit(int $limit) : void
     {
         $this->limit = $limit;
     }
@@ -162,7 +162,7 @@ class QueryBuilder
     /**
      * Set the offset of documents, useful for pagination.
      */
-    public function setOffset(int $offset)
+    public function setOffset(int $offset) : void
     {
         $this->offset = $offset;
     }
@@ -170,7 +170,7 @@ class QueryBuilder
     /**
      * Enables the connex feature.
      */
-    public function enableConnex()
+    public function enableConnex() : void
     {
         $this->connex = true;
     }
@@ -178,7 +178,7 @@ class QueryBuilder
     /**
      * Disables the connex feature.
      */
-    public function disableConnex()
+    public function disableConnex() : void
     {
         $this->connex = false;
     }
@@ -198,7 +198,7 @@ class QueryBuilder
      *
      * @return array
      */
-    public function getFilters()
+    public function getFilters() : array
     {
         return [
             'limit' => $this->limit,

@@ -46,7 +46,7 @@ class QuerySegment
         return $this->children;
     }
 
-    public function setField($field)
+    public function setField($field) : void
     {
         $this->field = $field;
     }
@@ -54,7 +54,7 @@ class QuerySegment
     /**
      * @return string
      */
-    public function getField()
+    public function getField() : string
     {
         return $this->field;
     }
@@ -72,7 +72,7 @@ class QuerySegment
      *
      * @return array
      */
-    public function getTerms()
+    public function getTerms() : array
     {
         if (empty($this->children)) {
             return [$this->value];
@@ -91,7 +91,7 @@ class QuerySegment
      *
      * @return array
      */
-    public function getSegment()
+    public function getSegment() : array
     {
         if (empty($this->children)) {
             return [$this->field => [$this->value]];
@@ -114,7 +114,7 @@ class QuerySegment
      *
      * @return bool
      */
-    public function hasChildren()
+    public function hasChildren() : bool
     {
         return !empty($this->children);
     }
@@ -126,7 +126,7 @@ class QuerySegment
      *
      * @return QuerySegment
      */
-    public static function exactSearch($field, $terms)
+    public static function exactSearch($field, $terms) : QuerySegment
     {
         $qs = new self();
         $qs->field = $field;
@@ -142,7 +142,7 @@ class QuerySegment
      *
      * @return array
      */
-    public static function bulkExactSearch($field, $searches)
+    public static function bulkExactSearch($field, $searches) : array
     {
         $segs = [];
         foreach ($searches as $search) {
@@ -157,7 +157,7 @@ class QuerySegment
      *
      * @return QuerySegment
      */
-    public static function fieldSearch($field, $terms)
+    public static function fieldSearch($field, $terms) : QuerySegment
     {
         return self::exactSearch($field.'%', $terms);
     }
@@ -169,7 +169,7 @@ class QuerySegment
      *
      * @return array
      */
-    public static function bulkFieldSearch($field, $searches)
+    public static function bulkFieldSearch($field, $searches) : array
     {
         $segs = [];
         foreach ($searches as $search) {
@@ -184,7 +184,7 @@ class QuerySegment
      *
      * @return QuerySegment
      */
-    public static function lesserSearch($field, $terms)
+    public static function lesserSearch($field, $terms) : QuerySegment
     {
         return self::exactSearch($field.'<', $terms);
     }
@@ -194,7 +194,7 @@ class QuerySegment
      *
      * @return QuerySegment
      */
-    public static function lesserEqualSearch($field, $terms)
+    public static function lesserEqualSearch($field, $terms) : QuerySegment
     {
         return self::exactSearch($field.'<=', $terms);
     }
@@ -204,7 +204,7 @@ class QuerySegment
      *
      * @return QuerySegment
      */
-    public static function greaterSearch($field, $terms)
+    public static function greaterSearch($field, $terms) : QuerySegment
     {
         return self::exactSearch($field.'>', $terms);
     }
@@ -214,7 +214,7 @@ class QuerySegment
      *
      * @return QuerySegment
      */
-    public static function greaterEqualSearch($field, $terms)
+    public static function greaterEqualSearch($field, $terms) : QuerySegment
     {
         return self::exactSearch($field.'>=', $terms);
     }
@@ -224,7 +224,7 @@ class QuerySegment
      *
      * @return QuerySegment
      */
-    public static function notEqualSearch($field, $terms)
+    public static function notEqualSearch($field, $terms) : QuerySegment
     {
         return self::exactSearch($field.'!=', $terms);
     }
@@ -236,7 +236,7 @@ class QuerySegment
      *
      * @return QuerySegment
      */
-    public static function search($simpleQuery, $childSegment)
+    public static function search($simpleQuery, $childSegment) : QuerySegment
     {
         $qs = new self(self::Q_SEARCH);
         $qs->field = '%';
@@ -253,9 +253,9 @@ class QuerySegment
      *
      * @param QuerySegment[] $segments
      *
-     * @return QuerySegment
+     * @return QuerySegment|null
      */
-    public static function and(...$segments)
+    public static function and(...$segments) : ?QuerySegment
     {
         if (\count($segments) == 1 && \is_array($segments[0])) {
             $segments = $segments[0];
@@ -274,9 +274,9 @@ class QuerySegment
      *
      * @param QuerySegment[] $segments
      *
-     * @return QuerySegment
+     * @return QuerySegment|null
      */
-    public static function or(...$segments)
+    public static function or(...$segments) : ?QuerySegment
     {
         if (\count($segments) == 1 && \is_array($segments[0])) {
             $segments = $segments[0];
@@ -295,7 +295,7 @@ class QuerySegment
      *
      * @return QuerySegment
      */
-    public static function not(self $segment)
+    public static function not(self $segment) : QuerySegment
     {
         if (mb_substr($segment->field, 0, 1) === '-') {
             $segment->field = mb_substr($segment->field, 1);
@@ -311,7 +311,7 @@ class QuerySegment
      *
      * @return string
      */
-    public static function debug(self $seg)
+    public static function debug(self $seg) : string
     {
         $rtn = [];
         $prepend = '';

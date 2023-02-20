@@ -2,9 +2,9 @@
 
 namespace MFonte\Search\Services;
 
-use Mfonte\Search\Query\QuerySegment;
-use Mfonte\Search\Services\FAL\Directory;
-use Mfonte\Search\Tokenizers\TokenizerInterface;
+use MFonte\Search\Query\QuerySegment;
+use MFonte\Search\Services\FAL\Directory;
+use MFonte\Search\Tokenizers\TokenizerInterface;
 
 class Index
 {
@@ -72,7 +72,7 @@ class Index
         }
     }
 
-    public function getStats()
+    public function getStats() : array
     {
         return [
             'documentCount' => \count($this->documents->scan()),
@@ -93,7 +93,7 @@ class Index
      *
      * @return bool
      */
-    public function update($document, $clearCache = true)
+    public function update($document, $clearCache = true) : bool
     {
         if (\is_object($document)) {
             $document = get_object_vars($document);
@@ -144,7 +144,7 @@ class Index
      *
      * @return bool
      */
-    public function updateMultiple(array &$documents)
+    public function updateMultiple(array &$documents) : bool
     {
         $count = 0;
         foreach ($documents as &$document) {
@@ -168,7 +168,7 @@ class Index
      *
      * @return bool
      */
-    public function delete($id)
+    public function delete($id) : bool
     {
         // remove document
         $this->documents->delete($id);
@@ -189,10 +189,7 @@ class Index
                 $tokensToRemove = [];
                 foreach ($tokens as $tokenName => &$token) {
                     if (isset($token[$id])) {
-                        try {
-                            unset($token[$id]);
-                        } catch (\Throwable $ex) {
-                        }
+                        unset($token[$id]);
                         if (empty($token)) {
                             $tokensToRemove[] = $tokenName;
                         }
@@ -231,7 +228,7 @@ class Index
      *
      * @return array : errors encountered while rebuilding
      */
-    public function rebuild()
+    public function rebuild() : array
     {
         $documents = $this->documents->openAll();
         $errors = [];
@@ -252,7 +249,7 @@ class Index
      *
      * @throws \Exception
      */
-    public function clearCache()
+    public function clearCache() : void
     {
         $this->cache->deleteAll(false);
     }
@@ -266,7 +263,7 @@ class Index
      *
      * @return array
      */
-    public function search($query, $filters = [])
+    public function search($query, $filters = []) : array
     {
         $tokens = [];
         if (!isset($filters['offset'])) {
@@ -405,7 +402,7 @@ class Index
     /**
      * Merges results based of the boolean operator AND/OR of a QuerySegment $qs, with the $not and $first parameters.
      */
-    private function mergeSegments(QuerySegment $qs, &$results, bool $first, $not, $currentResult)
+    private function mergeSegments(QuerySegment $qs, &$results, bool $first, $not, $currentResult) : void
     {
         if ($not) {
             if ($first) {
@@ -568,7 +565,7 @@ class Index
      *
      * @throws \Exception
      *
-     * @return mixed
+     * @return string|array
      */
     public function getDocument($id)
     {
@@ -582,7 +579,7 @@ class Index
      *
      * @return array
      */
-    public function getSchemas()
+    public function getSchemas() : array
     {
         return $this->schemas;
     }
@@ -592,7 +589,7 @@ class Index
      *
      * @param array $schemas
      */
-    public function setSchemas($schemas)
+    public function setSchemas($schemas) : void
     {
         $this->schemas = $schemas;
     }
@@ -602,7 +599,7 @@ class Index
      *
      * @return array
      */
-    public function getTypes()
+    public function getTypes() : array
     {
         return $this->types;
     }
@@ -612,7 +609,7 @@ class Index
      *
      * @param array $types
      */
-    public function setTypes($types)
+    public function setTypes($types) : void
     {
         $this->types = $types;
     }
@@ -620,7 +617,7 @@ class Index
     /**
      * Closes every opened files, freeing memory.
      */
-    public function freeMemory()
+    public function freeMemory() : void
     {
         $this->index->free();
         $this->documents->free();
@@ -638,7 +635,7 @@ class Index
      *
      * @return array
      */
-    private function find($token)
+    private function find($token) : array
     {
         if (empty($token)) {
             return [];
@@ -662,7 +659,7 @@ class Index
      *
      * @deprecated Suggesting functions now have another suggestion function available. Please use suggestToken($token, $providePonderations) instead
      */
-    public function suggest($token, $providePonderations = false)
+    public function suggest($token, $providePonderations = false) : array
     {
         return $this->suggestToken($token, $providePonderations);
     }
@@ -675,7 +672,7 @@ class Index
      *
      * @return array
      */
-    public function suggestField($field, $value, $wrapSpan = false)
+    public function suggestField($field, $value, $wrapSpan = false) : array
     {
         $cached = $this->getCache('suggest_'.md5($field.'_'.$value.'_'.$wrapSpan));
         if (!empty($cached)) {
@@ -718,7 +715,7 @@ class Index
      *
      * @return array
      */
-    public function suggestToken($token, $providePonderations = false)
+    public function suggestToken($token, $providePonderations = false) : array
     {
         if (empty($token)) {
             return [];
@@ -753,7 +750,7 @@ class Index
      *
      * @return array
      */
-    private function fuzzyFind($token)
+    private function fuzzyFind($token) : array
     {
         if (empty($token) || $this->config['fuzzy_cost'] == 0) {
             return [];
@@ -841,7 +838,7 @@ class Index
      *
      * @return array
      */
-    private function buildDoc($data, $schema)
+    private function buildDoc($data, $schema) : array
     {
         $doc = [];
         if (isset($data['id'])) {
@@ -875,7 +872,6 @@ class Index
                 }
 
                 return new \DateTime(!empty($fieldName) ? $data[$fieldName] : $data);
-                break;
             case 'list':
                 $def = array_merge($definition, ['_type' => $definition['_type.']]);
                 $tmp = [];
@@ -886,13 +882,10 @@ class Index
                 }
 
                 return $tmp;
-                break;
             case 'array':
                 return $this->buildDoc(!empty($fieldName) ? $data[$fieldName] : $data, $definition['_array'])[0];
-                break;
             default:
                 return !empty($fieldName) ? $data[$fieldName] : $data;
-                break;
         }
     }
 
@@ -921,7 +914,6 @@ class Index
                 }
 
                 return $definition['_indexed'] ? $this->tokenize($dt, $definition) : '';
-                break;
             case 'list':
                 $def = array_merge($definition, ['_type' => $definition['_type.']]);
                 $tmp = [];
@@ -932,15 +924,12 @@ class Index
                 }
 
                 return $tmp;
-                break;
             case 'array':
                 return $this->buildDoc(!empty($fieldName) ? $data[$fieldName] : $data, $definition['_array'])[1];
-                break;
             default:
                 $this->buildFilter(!empty($fieldName) ? $data[$fieldName] : $data, $definition);
 
                 return $definition['_indexed'] ? $this->tokenize(!empty($fieldName) ? $data[$fieldName] : $data, $definition) : '';
-                break;
         }
     }
 
@@ -951,7 +940,7 @@ class Index
      *
      * @return array
      */
-    public function tokenizeQuery($query, $type = 'search')
+    public function tokenizeQuery($query, $type = 'search') : array
     {
         return array_keys($this->tokenize($query, ['_type' => $type, '_boost' => 0]));
     }
@@ -959,9 +948,9 @@ class Index
     /**
      * Tokenize a field based on his $def.
      *
-     * @return array|\RecursiveIteratorIterator|null
+     * @return array
      */
-    private function tokenize($data, $def)
+    private function tokenize($data, $def) : array
     {
         /** @var TokenizerInterface[] $typeDef */
         $typeDef = isset($this->types[$def['_type']]) ? $this->types[$def['_type']] : $this->types['_default'];
@@ -999,7 +988,7 @@ class Index
      *
      * @return void
      */
-    private function buildFilter($data, $def)
+    private function buildFilter($data, $def) : void
     {
         $filterable = isset($def['_filterable']) ? $def['_filterable'] : false;
         if ($filterable) {
@@ -1043,7 +1032,7 @@ class Index
      *
      * @throws \Exception
      */
-    private function updateDocument($doc, $id)
+    private function updateDocument($doc, $id) : void
     {
         $file = $this->documents->open($id);
         $file->setContent($doc);
@@ -1054,7 +1043,7 @@ class Index
      *
      * @throws \Exception
      */
-    private function updateIndex($index, $id)
+    private function updateIndex($index, $id) : void
     {
         $file = $this->index->open('all');
         if ($this->indexDocs == null) {
@@ -1088,7 +1077,7 @@ class Index
      *
      * @throws \Exception
      */
-    private function setCache($identifier, $response)
+    private function setCache($identifier, $response) : void
     {
         $file = $this->cache->open($identifier);
         $file->setContent($response);
@@ -1099,7 +1088,7 @@ class Index
      *
      * @throws \Exception
      *
-     * @return mixed
+     * @return string|array
      */
     private function getCache($identifier)
     {
@@ -1196,7 +1185,7 @@ class Index
     /**
      * Merges results by adding scores from $scoreArray per token.
      */
-    private function computeScore(array &$results, array $scoreArray)
+    private function computeScore(array &$results, array $scoreArray) : void
     {
         foreach ($scoreArray as $k => $v) {
             if (!isset($results[$k])) {
@@ -1212,9 +1201,9 @@ class Index
      *
      * @throws \Exception
      *
-     * @return array
+     * @return array|null
      */
-    private function processConnex(array $documents, array $searchTokens)
+    private function processConnex(array $documents, array $searchTokens) : ?array
     {
         if (!empty($documents)) {
             $backup_fuzzy_cost = $this->config['fuzzy_cost'];
@@ -1281,5 +1270,7 @@ class Index
                 'documents' => $this->processResults($connexDocs, ['limit' => $this->config['connex']['limitDocs']]),
             ];
         }
+
+        return null;
     }
 }

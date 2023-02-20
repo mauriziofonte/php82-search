@@ -6,7 +6,7 @@
  * Time: 12:50.
  */
 
-namespace Mfonte\Search\Tokenizers;
+namespace MFonte\Search\Tokenizers;
 
 class TrimPunctuationTokenizer implements TokenizerInterface
 {
