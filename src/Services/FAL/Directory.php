@@ -12,7 +12,7 @@ class Directory
     /**
      * @var File[]
      */
-    private $files;
+    private $files = [];
 
     private $keepOpen;
 
@@ -163,7 +163,7 @@ class Directory
             }
         } else {
             $files = $this->files;
-            if (\count($files) > 0) {
+            if ($files && \count($files) > 0) {
                 foreach ($files as $file) {
                     $file->delete();
                 }
