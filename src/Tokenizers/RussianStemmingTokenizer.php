@@ -2,7 +2,7 @@
 
 namespace MFonte\Search\Tokenizers;
 
-use Wamania\Snowball\Russian;
+use Wamania\Snowball\Stemmer\Russian;
 
 class RussianStemmingTokenizer implements TokenizerInterface
 {

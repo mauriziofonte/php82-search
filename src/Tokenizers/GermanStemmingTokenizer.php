@@ -2,7 +2,7 @@
 
 namespace MFonte\Search\Tokenizers;
 
-use Wamania\Snowball\German;
+use Wamania\Snowball\Stemmer\German;
 
 class GermanStemmingTokenizer implements TokenizerInterface
 {

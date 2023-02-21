@@ -2,7 +2,7 @@
 
 namespace MFonte\Search\Tokenizers;
 
-use Wamania\Snowball\Danish;
+use Wamania\Snowball\Stemmer\Danish;
 
 class DanishStemmingTokenizer implements TokenizerInterface
 {

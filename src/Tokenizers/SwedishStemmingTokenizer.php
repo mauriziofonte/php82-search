@@ -2,7 +2,7 @@
 
 namespace MFonte\Search\Tokenizers;
 
-use Wamania\Snowball\Swedish;
+use Wamania\Snowball\Stemmer\Swedish;
 
 class SwedishStemmingTokenizer implements TokenizerInterface
 {

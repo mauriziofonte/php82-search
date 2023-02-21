@@ -2,7 +2,7 @@
 
 namespace MFonte\Search\Tokenizers;
 
-use Wamania\Snowball\Dutch;
+use Wamania\Snowball\Stemmer\Dutch;
 
 class DutchStemmingTokenizer implements TokenizerInterface
 {

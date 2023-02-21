@@ -2,7 +2,7 @@
 
 namespace MFonte\Search\Tokenizers;
 
-use Wamania\Snowball\English;
+use Wamania\Snowball\Stemmer\English;
 
 class EnglishStemmingTokenizer implements TokenizerInterface
 {

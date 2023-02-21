@@ -2,7 +2,7 @@
 
 namespace MFonte\Search\Tokenizers;
 
-use Wamania\Snowball\French;
+use Wamania\Snowball\Stemmer\French;
 
 class FrenchStemmingTokenizer implements TokenizerInterface
 {

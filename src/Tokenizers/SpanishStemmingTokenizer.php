@@ -2,7 +2,7 @@
 
 namespace MFonte\Search\Tokenizers;
 
-use Wamania\Snowball\Spanish;
+use Wamania\Snowball\Stemmer\Spanish;
 
 class SpanishStemmingTokenizer implements TokenizerInterface
 {

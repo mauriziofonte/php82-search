@@ -2,7 +2,7 @@
 
 namespace MFonte\Search\Tokenizers;
 
-use Wamania\Snowball\Romanian;
+use Wamania\Snowball\Stemmer\Romanian;
 
 class RomanianStemmingTokenizer implements TokenizerInterface
 {

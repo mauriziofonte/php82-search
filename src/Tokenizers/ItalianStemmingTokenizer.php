@@ -2,7 +2,7 @@
 
 namespace MFonte\Search\Tokenizers;
 
-use Wamania\Snowball\Italian;
+use Wamania\Snowball\Stemmer\Italian;
 
 class ItalianStemmingTokenizer implements TokenizerInterface
 {

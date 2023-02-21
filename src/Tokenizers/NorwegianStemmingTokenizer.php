@@ -2,7 +2,7 @@
 
 namespace MFonte\Search\Tokenizers;
 
-use Wamania\Snowball\Norwegian;
+use Wamania\Snowball\Stemmer\Norwegian;
 
 class NorwegianStemmingTokenizer implements TokenizerInterface
 {
